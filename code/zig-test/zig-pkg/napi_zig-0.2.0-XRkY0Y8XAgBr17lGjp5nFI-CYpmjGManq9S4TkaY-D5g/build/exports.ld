@@ -1,8 +1,0 @@
-/* limit exports to the two n-api entry points on linux/freebsd. */
-{
-    global:
-        napi_register_module_v1;
-        node_api_module_get_api_version_v1;
-    local:
-        *;
-};
