@@ -31,6 +31,20 @@ pub fn main(init: std.process.Init) !void {
     try stdout_writer.flush(); // Don't forget to flush!
 }
 
+test "enums" {
+    const States = {prepare, iterate, calculate, terminate};
+    const ListOfStates = std.enums.values(States);
+
+    // Now I can iterate over the States. The "state" variable
+    // also has the correct type.
+
+    for (ListOfStates) |state| {
+        if (state == States.calculate) {
+            // etc.
+        }
+    }
+}
+
 test "simple test" {
     const gpa = std.testing.allocator;
     var list: std.ArrayList(i32) = .empty;
