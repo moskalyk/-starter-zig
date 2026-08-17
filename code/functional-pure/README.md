@@ -1,0 +1,1 @@
+https://github.com/ali-shahwali/zig-functools/blob/main/src/map.zig
