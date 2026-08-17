@@ -63,6 +63,9 @@ fn accept(stream: net.Stream, io: Io) !void {
                 } else if (std.mem.eql(u8, request.head.target, "/")) {
                     try serveHTTP(&request);
                     continue;
+                } else {
+                    try request.respond("Not Found", .{ .status_code = 404 });
+                    continue;
                 }
             },
         }
