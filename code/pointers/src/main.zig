@@ -3,58 +3,63 @@ const Io = std.Io;
 
 const pointers = @import("pointers");
 
-fn increment(num: *u8) void {
-    num.* += 1;
+test "int from pointer" {
+    var data1: u8 = 42;
+    var data2: u8 = 42;
+    const addr1 = @intFromPtr(&data1);
+    const addr2 = @intFromPtr(&data2);
+    std.debug.print("{x}\n", .{addr2 - addr1});
 }
 
-test "pointers" {
-    var x: u8 = 1;
-    increment(&x);
-    var score: i32 = 42;
-    var score1: i32 = 42;
-    const ptr: *i32 = &score;
-    const ptr2: *i32 = &score1;
+// test "pointers" {
+//     var x: u8 = 1;
+//     increment(&x);
+//     var score: i32 = 42;
+//     var score1: i32 = 42;
+//     const ptr: *i32 = &score;
+//     const ptr2: *i32 = &score1;
 
-    std.debug.print("score = {}\n", .{score});
-    std.debug.print("via pointer = {}\n", .{ptr.*});
-    std.debug.print("address = {*}\n", .{ptr});
-    std.debug.print("via pointer = {}\n", .{ptr2.*});
-    std.debug.print("via pointer2 = {}\n", .{ptr2});
+//     std.debug.print("score = {}\n", .{score});
+//     std.debug.print("via pointer = {}\n", .{ptr.*});
+//     std.debug.print("address = {*}\n", .{ptr}); // i32@7ffd59d71040
+//     std.debug.print("via pointer = {}\n", .{ptr2.*});
+//     std.debug.print("via pointer2 = {}\n", .{ptr2}); // i32@7ffd59d71044
 
-    try std.testing.expectEqual(@as(u8, 2), x);
-    //this is to split by spaces
+//     try std.testing.expectEqual(@as(u8, 2), x);
+//     //this is to split by spaces
 
-    const input = "Hello@World";
-    var iter = std.mem.splitAny(u8, input, "@");
-    while  (iter.next()) |word| {
-        std.debug.print("{s}\n", .{word});
-    }
+//     const input = "Hello@World";
+//     var iter = std.mem.splitAny(u8, input, "@");
+//     while  (iter.next()) |word| {
+//         std.debug.print("{s}\n", .{word});
+//     }
 
-    // const value: i32 = 42;
-    var buffer1: [256]u8 = undefined;
-    var buffer2: [256]u8 = undefined;
-    const str = try std.fmt.bufPrint(&buffer1, "{}", .{ptr2});
-    const str1 = try std.fmt.bufPrint(&buffer2, "{}", .{ptr});
-    var iter2 = std.mem.splitAny(u8, str, "@");
-    var iter3 = std.mem.splitAny(u8, str1, "@");
-    var i: i32 = 0;
+//     // const value: i32 = 42;
+//     var buffer1: [256]u8 = undefined;
+//     var buffer2: [256]u8 = undefined;
 
-    while  (iter2.next()) |word| {
-        if(i == 1) std.debug.print("{any}\n", .{std.fmt.parseInt(u8, word, 16)});
-        if(i == 1) {
-            std.debug.print("{s}\n", .{word});
-            while  (iter3.next()) |word1| {
-                if(i == 2){
-                    std.debug.print("{}\n", .{&word1});
-                    std.debug.print("{s}\n", .{word1});
-                    std.debug.print("{}\n", .{&word - &word1});
-                }
-                i += 1;
-            }
-        }
-        i += 1;
-    }
-}
+//     const str = try std.fmt.bufPrint(&buffer1, "{}", .{ptr2});
+//     const str1 = try std.fmt.bufPrint(&buffer2, "{}", .{ptr});
+//     var iter2 = std.mem.splitAny(u8, str, "@");
+//     var iter3 = std.mem.splitAny(u8, str1, "@");
+//     var i: i32 = 0;
+
+//     while  (iter2.next()) |word| {
+//         if(i == 1) std.debug.print("{any}\n", .{std.fmt.parseInt(u8, word, 16)});
+//         if(i == 1) {
+//             std.debug.print("{s}\n", .{word});
+//             while  (iter3.next()) |word1| {
+//                 if(i == 2){
+//                     std.debug.print("{}\n", .{&word1});
+//                     std.debug.print("{s}\n", .{word1});
+//                     std.debug.print("{}\n", .{&word - &word1});
+//                 }
+//                 i += 1;
+//             }
+//         }
+//         i += 1;
+//     }
+// }
 
 test "fuzz example" {
     try std.testing.fuzz({}, testOne, .{});
