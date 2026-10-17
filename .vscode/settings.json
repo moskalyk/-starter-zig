@@ -1,0 +1,10 @@
+{
+    "zig.testArgs": [
+        "build",
+        "test",
+        "-Dtest-filter=${filter}"
+    ],
+    "chat.tools.terminal.autoApprove": {
+        "zig": true
+    }
+}
